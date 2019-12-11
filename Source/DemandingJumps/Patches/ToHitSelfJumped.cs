@@ -210,7 +210,7 @@ namespace DemandingJumps.Patches
                     {
                         int ToHitSelfJumpedModifier = Utilities.GetAttackerJumpedAccuracyModifier(attacker);
                         Traverse AddToolTipDetail = Traverse.Create(__instance).Method("AddToolTipDetail", "SELF JUMPED", ToHitSelfJumpedModifier);
-                        Logger.LogLine($"[CombatHUDWeaponSlot_SetHitChance_POSTFIX] Invoking AddToolTipDetail for ToHitSelfJumped: {ToHitSelfJumpedModifier}");
+                        //Logger.LogLine($"[CombatHUDWeaponSlot_SetHitChance_POSTFIX] Invoking AddToolTipDetail for ToHitSelfJumped: {ToHitSelfJumpedModifier}");
                         AddToolTipDetail.GetValue();
                     }
                 }

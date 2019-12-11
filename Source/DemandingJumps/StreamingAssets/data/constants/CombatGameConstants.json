@@ -1,6 +1,5 @@
 {
-    "ResolutionConstants":
-    {
-        "StabilityDumpJumping": -1
-    }
+	"ResolutionConstants": {
+		"StabilityDumpJumping": -1
+	}
 }
