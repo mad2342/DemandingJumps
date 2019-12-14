@@ -48,7 +48,7 @@ namespace DemandingJumps.Patches
                             {
                                 ___pips[i].transform.localScale = Vector3.one;
 
-                                if ( ((i+1) * ___pointsPerPip > current) && ((i + 1) * ___pointsPerPip <= projected) )
+                                if ( ((i+1) * ___pointsPerPip > current) && ((i+1) * ___pointsPerPip <= projected) )
                                 {
                                     UIHelpers.SetImageColor(___pips[i], stabilityWarningColor);
                                 }
