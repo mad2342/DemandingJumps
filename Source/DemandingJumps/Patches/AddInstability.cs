@@ -23,6 +23,22 @@ namespace DemandingJumps.Patches
                     {
                         Logger.LogLine("[CombatHUDPipBar_ShowValue_POSTFIX] THIS CombatHUDPipBar is a child of CombatHUDStabilityDisplay");
 
+                        CombatHUDStabilityDisplay combatHUDStabilityDisplay = __instance.GetComponentInParent<CombatHUDStabilityDisplay>();
+                        Mech displayedMech = combatHUDStabilityDisplay.DisplayedActor as Mech;
+
+                        if (!displayedMech.team.IsLocalPlayer || displayedMech == null)
+                        {
+                            return;
+                        }
+
+
+                        Logger.LogLine("[CombatHUDPipBar_ShowValue_POSTFIX] displayedMech.DisplayName: " + displayedMech.DisplayName);
+                        float unsteadyThreshold = displayedMech.UnsteadyThreshold;
+                        float maxStability = displayedMech.MaxStability;
+                        Logger.LogLine("[CombatHUDPipBar_ShowValue_POSTFIX] displayedMech.UnsteadyThreshold: " + displayedMech.UnsteadyThreshold);
+                        Logger.LogLine("[CombatHUDPipBar_ShowValue_POSTFIX] displayedMech.MaxStability: " + displayedMech.MaxStability);
+
+
                         Logger.LogLine("[CombatHUDPipBar_ShowValue_POSTFIX] current: " + current);
                         Logger.LogLine("[CombatHUDPipBar_ShowValue_POSTFIX] projected: " + projected);
 
@@ -34,16 +50,19 @@ namespace DemandingJumps.Patches
                             int pipCount = __instance.PipCount;
                             Logger.LogLine("[CombatHUDPipBar_ShowValue_POSTFIX] ___pointsPerPip: " + ___pointsPerPip);
                             Logger.LogLine("[CombatHUDPipBar_ShowValue_POSTFIX] pipCount: " + pipCount);
-                            float calculatedMaxStability = pipCount * ___pointsPerPip;
-                            Logger.LogLine("[CombatHUDPipBar_ShowValue_POSTFIX] calculatedMaxStability: " + calculatedMaxStability);
+
+                            //float calculatedMaxStability = pipCount * ___pointsPerPip;
+                            //Logger.LogLine("[CombatHUDPipBar_ShowValue_POSTFIX] calculatedMaxStability: " + calculatedMaxStability);
 
                             Color increaseStabilityWarningColor = Color.Lerp(shownColor, shownColorProjectedHigh, Mathf.Sin(Time.realtimeSinceStartup * __instance.TimeSinFactor) * 0.5f + 0.5f);
                             Color c = LazySingletonBehavior<UIManager>.Instance.UIColorRefs.red;
                             Color maxStabilityWarningColor = Color.Lerp(c, shownColorProjectedHigh, Mathf.Sin(Time.realtimeSinceStartup * __instance.TimeSinFactor) * 0.5f + 0.5f);
-                            Color stabilityWarningColor = projected >= calculatedMaxStability ? maxStabilityWarningColor : increaseStabilityWarningColor;
+                            
+                            //Color stabilityWarningColor = projected >= calculatedMaxStability ? maxStabilityWarningColor : increaseStabilityWarningColor;
+                            Color stabilityWarningColor = projected >= maxStability ? maxStabilityWarningColor : increaseStabilityWarningColor;
 
 
-                            List <Graphic> ___pips = (List<Graphic>)typeof(CombatHUDPipBar).GetProperty("Pips", AccessTools.all).GetValue(__instance, null);
+                            List<Graphic> ___pips = (List<Graphic>)typeof(CombatHUDPipBar).GetProperty("Pips", AccessTools.all).GetValue(__instance, null);
                             for (int i = 0; i < ___pips.Count; i++)
                             {
                                 ___pips[i].transform.localScale = Vector3.one;
@@ -53,6 +72,16 @@ namespace DemandingJumps.Patches
                                     UIHelpers.SetImageColor(___pips[i], stabilityWarningColor);
                                 }
                             }
+                        }
+
+                        // Toggle additional warning icon
+                        if (projected > unsteadyThreshold)
+                        {
+                            combatHUDStabilityDisplay.StabilityIcon.SetActive(true);
+                        }
+                        else
+                        {
+                            combatHUDStabilityDisplay.StabilityIcon.SetActive(false);
                         }
                     }
                 }
