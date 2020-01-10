@@ -10,6 +10,6 @@
 
     "Settings": {
         "ToHitSelfJumpedSpareAI": true,
-        "ToHitSelfJumpedPenalties": [0, 1, 2, 3]
+        "ToHitSelfJumpedPenalties": [1, 1, 2, 2]
     }
 }
