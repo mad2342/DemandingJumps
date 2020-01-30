@@ -21,7 +21,7 @@ namespace DemandingJumps.Patches
                 {
                     if (__instance.GetComponentInParent(typeof(CombatHUDStabilityDisplay)) != null)
                     {
-                        Logger.LogLine("[CombatHUDPipBar_ShowValue_POSTFIX] THIS CombatHUDPipBar is a child of CombatHUDStabilityDisplay");
+                        Logger.Info("[CombatHUDPipBar_ShowValue_POSTFIX] THIS CombatHUDPipBar is a child of CombatHUDStabilityDisplay");
 
                         CombatHUDStabilityDisplay combatHUDStabilityDisplay = __instance.GetComponentInParent<CombatHUDStabilityDisplay>();
                         Mech displayedMech = combatHUDStabilityDisplay.DisplayedActor as Mech;
@@ -32,27 +32,27 @@ namespace DemandingJumps.Patches
                         }
 
 
-                        Logger.LogLine("[CombatHUDPipBar_ShowValue_POSTFIX] displayedMech.DisplayName: " + displayedMech.DisplayName);
+                        Logger.Info("[CombatHUDPipBar_ShowValue_POSTFIX] displayedMech.DisplayName: " + displayedMech.DisplayName);
                         float unsteadyThreshold = displayedMech.UnsteadyThreshold;
                         float maxStability = displayedMech.MaxStability;
-                        Logger.LogLine("[CombatHUDPipBar_ShowValue_POSTFIX] displayedMech.UnsteadyThreshold: " + displayedMech.UnsteadyThreshold);
-                        Logger.LogLine("[CombatHUDPipBar_ShowValue_POSTFIX] displayedMech.MaxStability: " + displayedMech.MaxStability);
+                        Logger.Info("[CombatHUDPipBar_ShowValue_POSTFIX] displayedMech.UnsteadyThreshold: " + displayedMech.UnsteadyThreshold);
+                        Logger.Info("[CombatHUDPipBar_ShowValue_POSTFIX] displayedMech.MaxStability: " + displayedMech.MaxStability);
 
 
-                        Logger.LogLine("[CombatHUDPipBar_ShowValue_POSTFIX] current: " + current);
-                        Logger.LogLine("[CombatHUDPipBar_ShowValue_POSTFIX] projected: " + projected);
+                        Logger.Info("[CombatHUDPipBar_ShowValue_POSTFIX] current: " + current);
+                        Logger.Info("[CombatHUDPipBar_ShowValue_POSTFIX] projected: " + projected);
 
                         if (projected > current)
                         {
-                            Logger.LogLine("[CombatHUDPipBar_ShowValue_POSTFIX] INSTABILITY RISES: Fixing pips-preview");
+                            Logger.Debug("[CombatHUDPipBar_ShowValue_POSTFIX] INSTABILITY RISES: Fixing pips-preview");
 
                             float ___pointsPerPip = (float)typeof(CombatHUDPipBar).GetProperty("PointsPerPip", AccessTools.all).GetValue(__instance, null);
                             int pipCount = __instance.PipCount;
-                            Logger.LogLine("[CombatHUDPipBar_ShowValue_POSTFIX] ___pointsPerPip: " + ___pointsPerPip);
-                            Logger.LogLine("[CombatHUDPipBar_ShowValue_POSTFIX] pipCount: " + pipCount);
+                            Logger.Info("[CombatHUDPipBar_ShowValue_POSTFIX] ___pointsPerPip: " + ___pointsPerPip);
+                            Logger.Info("[CombatHUDPipBar_ShowValue_POSTFIX] pipCount: " + pipCount);
 
                             //float calculatedMaxStability = pipCount * ___pointsPerPip;
-                            //Logger.LogLine("[CombatHUDPipBar_ShowValue_POSTFIX] calculatedMaxStability: " + calculatedMaxStability);
+                            //Logger.Debug("[CombatHUDPipBar_ShowValue_POSTFIX] calculatedMaxStability: " + calculatedMaxStability);
 
                             Color increaseStabilityWarningColor = Color.Lerp(shownColor, shownColorProjectedHigh, Mathf.Sin(Time.realtimeSinceStartup * __instance.TimeSinFactor) * 0.5f + 0.5f);
                             Color c = LazySingletonBehavior<UIManager>.Instance.UIColorRefs.red;
@@ -87,7 +87,7 @@ namespace DemandingJumps.Patches
                 }
                 catch (Exception e)
                 {
-                    Logger.LogError(e);
+                    Logger.Error(e);
                 }
             }
         }
@@ -124,7 +124,7 @@ namespace DemandingJumps.Patches
             }
             catch (Exception e)
             {
-                Logger.LogError(e);
+                Logger.Error(e);
             }
         }
 
@@ -133,10 +133,10 @@ namespace DemandingJumps.Patches
             try
             {
                 //AbstractActor ____actor = (AbstractActor)AccessTools.Field(typeof(CombatHUDActorInfo), "displayedActor").GetValue(__instance.ActorInfo);
-                //Logger.LogLine("[CombatHUDMechTray_Update_POSTFIX] ____actor?.DisplayName: " + ____actor?.DisplayName);
+                //Logger.Debug("[CombatHUDMechTray_Update_POSTFIX] ____actor?.DisplayName: " + ____actor?.DisplayName);
 
 
-                Logger.LogLine("[CombatHUDMechTray_Update_POSTFIX] __instance.DisplayedActor?.DisplayName: " + __instance.DisplayedActor?.DisplayName);
+                Logger.Debug("[CombatHUDMechTray_Update_POSTFIX] __instance.DisplayedActor?.DisplayName: " + __instance.DisplayedActor?.DisplayName);
 
                 if(__instance.DisplayedActor == null)
                 {
@@ -145,24 +145,24 @@ namespace DemandingJumps.Patches
 
                 CombatHUDStabilityDisplay stabilityDisplay = __instance.ActorInfo.StabilityDisplay;
                 float predictedStabilityPercentage = stabilityDisplay.PredictedTargetLevel;
-                Logger.LogLine("[CombatHUDMechTray_Update_POSTFIX] predictedStabilityPercentage: " + predictedStabilityPercentage);
+                Logger.Debug("[CombatHUDMechTray_Update_POSTFIX] predictedStabilityPercentage: " + predictedStabilityPercentage);
 
 
                 Mech mech = __instance.DisplayedActor as Mech;
                 float currentStabilityPercentage = mech.StabilityPercentage;
-                Logger.LogLine("[CombatHUDMechTray_Update_POSTFIX] currentStabilityPercentage: " + currentStabilityPercentage);
+                Logger.Debug("[CombatHUDMechTray_Update_POSTFIX] currentStabilityPercentage: " + currentStabilityPercentage);
 
                 // Instability rises
                 if (currentStabilityPercentage < predictedStabilityPercentage)
                 {
-                    Logger.LogLine("[CombatHUDMechTray_Update_POSTFIX] Try to fix pips");
+                    Logger.Debug("[CombatHUDMechTray_Update_POSTFIX] Try to fix pips");
 
                     CombatHUDStabilityBarPips pipBar = (CombatHUDStabilityBarPips)AccessTools.Property(typeof(CombatHUDStabilityDisplay), "PipBar").GetValue(stabilityDisplay, null);
                     List<Graphic> pipBarPips = (List<Graphic>)typeof(CombatHUDStabilityBarPips).GetProperty("Pips", AccessTools.all).GetValue(pipBar, null);
 
                     //Vector3 fullScale = (Vector3)AccessTools.Field(typeof(CombatHUDStabilityBarPips), "fullScale").GetValue(pipBar);
 
-                    Logger.LogLine("[CombatHUDMechTray_Update_POSTFIX] pipBarPips.Count: " + pipBarPips.Count);
+                    Logger.Debug("[CombatHUDMechTray_Update_POSTFIX] pipBarPips.Count: " + pipBarPips.Count);
 
                     for (int i = 0; i < pipBarPips.Count; i++)
                     {
@@ -173,7 +173,7 @@ namespace DemandingJumps.Patches
             }
             catch (Exception e)
             {
-                Logger.LogError(e);
+                Logger.Error(e);
             }
         }
 
@@ -188,18 +188,18 @@ namespace DemandingJumps.Patches
             {
                 try
                 {
-                    //Logger.LogLine("[Mech_GetMinStability_POSTFIX] __instance.DisplayName: " + __instance.DisplayName);
-                    //Logger.LogLine("[Mech_GetMinStability_POSTFIX] oldStability: " + oldStability);
-                    //Logger.LogLine("[Mech_GetMinStability_POSTFIX] numLevelsToDump: " + numLevelsToDump);
+                    Logger.Info("[Mech_GetMinStability_POSTFIX] __instance.DisplayName: " + __instance.DisplayName);
+                    Logger.Info("[Mech_GetMinStability_POSTFIX] oldStability: " + oldStability);
+                    Logger.Info("[Mech_GetMinStability_POSTFIX] numLevelsToDump: " + numLevelsToDump);
 
                     float levelValue = __instance.MaxStability / (float)__instance.Combat.Constants.ResolutionConstants.StabilityLevels;
-                    //Logger.LogLine("[Mech_GetMinStability_POSTFIX] levelValue: " + levelValue);
+                    Logger.Info("[Mech_GetMinStability_POSTFIX] levelValue: " + levelValue);
 
-                    //Logger.LogLine("[Mech_GetMinStability_POSTFIX] __result: " + __result);
+                    Logger.Info("[Mech_GetMinStability_POSTFIX] __result: " + __result);
                 }
                 catch (Exception e)
                 {
-                    Logger.LogError(e);
+                    Logger.Error(e);
                 }
             }
         }
@@ -211,9 +211,9 @@ namespace DemandingJumps.Patches
             {
                 try
                 {
-                    Logger.LogLine("[Mech_AddInstability_POSTFIX] __instance.DisplayName: " + __instance.DisplayName);
-                    //Logger.LogLine("[Mech_AddInstability_POSTFIX] amt: " + amt);
-                    Logger.LogLine("[Mech_AddInstability_POSTFIX] source: " + source);
+                    Logger.Debug("[Mech_AddInstability_POSTFIX] __instance.DisplayName: " + __instance.DisplayName);
+                    //Logger.Debug("[Mech_AddInstability_POSTFIX] amt: " + amt);
+                    Logger.Debug("[Mech_AddInstability_POSTFIX] source: " + source);
 
                     if (source != StabilityChangeSource.Jumping)
                     {
@@ -221,13 +221,13 @@ namespace DemandingJumps.Patches
                     }
 
                     float maxStability = __instance.MaxStability;
-                    Logger.LogLine("[Mech_AddInstability_PREFIX] maxStability: " + maxStability);
+                    Logger.Debug("[Mech_AddInstability_PREFIX] maxStability: " + maxStability);
                     float currentStability = (float)AccessTools.Property(typeof(Mech), "_stability").GetValue(__instance, null);
-                    Logger.LogLine("[Mech_AddInstability_PREFIX] currentStability: " + currentStability);
+                    Logger.Debug("[Mech_AddInstability_PREFIX] currentStability: " + currentStability);
                     float unsteadyThreshold = __instance.UnsteadyThreshold;
-                    Logger.LogLine("[Mech_AddInstability_PREFIX] unsteadyThreshold: " + unsteadyThreshold);
+                    Logger.Debug("[Mech_AddInstability_PREFIX] unsteadyThreshold: " + unsteadyThreshold);
                     float percentStability = __instance.StabilityPercentage;
-                    Logger.LogLine("[Mech_AddInstability_PREFIX] percentStability: " + percentStability);
+                    Logger.Debug("[Mech_AddInstability_PREFIX] percentStability: " + percentStability);
 
 
                     __instance.NeedsInstabilityCheck = true;
@@ -252,12 +252,13 @@ namespace DemandingJumps.Patches
                         }
                         */
 
+                        // Will strip all evasion if over threshold after landing
                         __instance.ApplyUnsteady();
                     }
                 }
                 catch (Exception e)
                 {
-                    Logger.LogError(e);
+                    Logger.Error(e);
                 }
             }
         }

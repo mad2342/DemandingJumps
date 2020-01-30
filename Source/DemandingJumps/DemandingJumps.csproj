@@ -48,9 +48,11 @@
     <Reference Include="UnityEngine.UI" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\Link\MadLogger.cs">
+      <Link>MadLogger.cs</Link>
+    </Compile>
     <Compile Include="Holder.cs" />
     <Compile Include="DemandingJumps.cs" />
-    <Compile Include="Logger.cs" />
     <Compile Include="Patches\AddInstability.cs" />
     <Compile Include="Patches\ToHitSelfJumped.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -61,7 +63,7 @@
   <ItemGroup>
     <None Include="mod.json" />
     <None Include="README.md" />
-	<None Include="StreamingAssets\data\constants\*.json" />
+    <None Include="StreamingAssets\data\constants\*.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
