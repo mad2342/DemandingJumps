@@ -78,6 +78,8 @@ namespace DemandingJumps.Patches
         }
         */
 
+
+
         [HarmonyPatch(typeof(CombatSelectionHandler), "addNewState", new Type[] { typeof(SelectionState) })]
         public static class CombatSelectionHandler_addNewState_Patch
         {
@@ -96,6 +98,8 @@ namespace DemandingJumps.Patches
                 }
             }
         }
+
+
 
         // Needed for right click during jump preview which falls back to a normal move...
         [HarmonyPatch(typeof(CombatSelectionHandler), "RemoveTopState", new Type[] {})]
@@ -119,6 +123,8 @@ namespace DemandingJumps.Patches
                 }
             }
         }
+
+
 
         [HarmonyPatch(typeof(ToHit), "GetAllModifiers")]
         public static class ToHit_GetAllModifiers_Patch
@@ -153,6 +159,8 @@ namespace DemandingJumps.Patches
             }
         }
 
+
+
         [HarmonyPatch(typeof(ToHit), "GetAllModifiersDescription")]
         public static class ToHit_GetAllModifiersDescription_Patch
         {
@@ -185,6 +193,8 @@ namespace DemandingJumps.Patches
                 }
             }
         }
+
+
 
         [HarmonyPatch(typeof(CombatHUDWeaponSlot), "SetHitChance", new Type[] { typeof(ICombatant) })]
         public static class CombatHUDWeaponSlot_SetHitChance_Patch

@@ -92,6 +92,8 @@ namespace DemandingJumps.Patches
             }
         }
 
+
+
         // Reference
         /*
         [HarmonyPatch(typeof(CombatHUDMechTray), "Update")]
@@ -180,6 +182,8 @@ namespace DemandingJumps.Patches
         }
         */
 
+
+
         // Info
         [HarmonyPatch(typeof(Mech), "GetMinStability", new Type[] { typeof(float), typeof(int) })]
         public static class Mech_GetMinStability_Patch
@@ -203,6 +207,8 @@ namespace DemandingJumps.Patches
                 }
             }
         }
+
+
 
         [HarmonyPatch(typeof(Mech), "AddInstability")]
         public static class Mech_AddInstability_Patch
