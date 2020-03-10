@@ -44,7 +44,7 @@ namespace DemandingJumps.Patches
 
                         if (projected > current)
                         {
-                            Logger.Debug("[CombatHUDPipBar_ShowValue_POSTFIX] INSTABILITY RISES: Fixing pips-preview");
+                            Logger.Info("[CombatHUDPipBar_ShowValue_POSTFIX] INSTABILITY RISES: Fixing pips-preview");
 
                             float ___pointsPerPip = (float)typeof(CombatHUDPipBar).GetProperty("PointsPerPip", AccessTools.all).GetValue(__instance, null);
                             int pipCount = __instance.PipCount;
