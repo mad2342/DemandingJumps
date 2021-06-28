@@ -1,10 +1,11 @@
 {
 	"ResolutionConstants": {
-		"StabilityDumpJumping": -1
+		"StabilityDumpJumping": -1,
+        "StabilityDumpDFA": -2
 	},
     "CombatUIConstants": {
-        "JumpDescription": {
-            "Details": "Execute a jump move, gaining EVASIVE charges based on distance (+2 Difficulty to hit this unit with ranged attacks per EVASIVE charge). You may also use Jump to initiate a 'Death from Above' attack on nearby enemies.\nCannot take Called Shots after jumping."
+        "MoraleAttackDescription": {
+            "Details": "Take a Called Shot against a single target at -4 Difficulty. The target's next Initiative is reduced by 1 (to a minimum of 1).\nCannot take Called Shots after jumping.\n"
         }
     }
 }
