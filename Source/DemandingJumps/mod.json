@@ -2,7 +2,7 @@
     "Name": "DemandingJumps",
     "Enabled": true,
 
-    "Version": "1.9.1-003R",
+    "Version": "1.9.1-004R",
     "Description": "Jumping incurs a penalty to hitting targets depending on attackers weight class (configurable) AND adds one bar of stability damage.",
     "Author": "Mad",
 
