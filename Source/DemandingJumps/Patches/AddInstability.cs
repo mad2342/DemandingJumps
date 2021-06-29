@@ -38,7 +38,6 @@ namespace DemandingJumps.Patches
                         Logger.Info("[CombatHUDPipBar_ShowValue_POSTFIX] displayedMech.UnsteadyThreshold: " + displayedMech.UnsteadyThreshold);
                         Logger.Info("[CombatHUDPipBar_ShowValue_POSTFIX] displayedMech.MaxStability: " + displayedMech.MaxStability);
 
-
                         Logger.Info("[CombatHUDPipBar_ShowValue_POSTFIX] current: " + current);
                         Logger.Info("[CombatHUDPipBar_ShowValue_POSTFIX] projected: " + projected);
 
@@ -184,7 +183,64 @@ namespace DemandingJumps.Patches
 
 
 
+        [HarmonyPatch(typeof(SelectionStateJump), "ProjectedStabilityForState", MethodType.Getter)]
+        public static class SelectionStateJump_ProjectedStabilityForState_Patch
+        {
+            static void Postfix(SelectionStateJump __instance, ref float __result)
+            {
+                try
+                {
+                    if (!(__instance.SelectedActor is Mech selectedMech))
+                    {
+                        return;
+                    }
+                    Logger.Info("[SelectionStateJump_ProjectedStabilityForState_POSTFIX] selectedMech: " + selectedMech.DisplayName);
+
+                    float currentStability = selectedMech != null ? selectedMech.CurrentStability : 0f;
+
+                    if (__instance.PotentialMeleeTarget != null && selectedMech.StatCollection.GetValue<bool>("DFACausesSelfUnsteady"))
+                    {
+                        // Add instability from jumping in preview
+                        __result = selectedMech.GetMinStability(StabilityChangeSource.DFA, currentStability) + selectedMech.GetMinStability(StabilityChangeSource.Jumping, 0);
+                        
+                        Logger.Info("[SelectionStateJump_ProjectedStabilityForState_POSTFIX] DFA target selected, adding instability from jumping for accurate preview");
+                        Logger.Info("[SelectionStateJump_ProjectedStabilityForState_POSTFIX] __result: " + __result);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Logger.Error(e);
+                }
+            }
+        }
+
+
+
         // Info
+        /*
+        [HarmonyPatch(typeof(Mech), "GetMinStability", new Type[] { typeof(StabilityChangeSource), typeof(float) })]
+        public static class Mech_GetMinStability_Patch2
+        {
+            static void Postfix(Mech __instance, float __result, StabilityChangeSource source, float oldStability)
+            {
+                try
+                {
+                    Logger.Info("[Mech_GetMinStability_POSTFIX2] __instance.DisplayName: " + __instance.DisplayName);
+                    Logger.Info("[Mech_GetMinStability_POSTFIX2] source: " + source);
+                    Logger.Info("[Mech_GetMinStability_POSTFIX2] __result: " + __result);
+
+                    //if (source == StabilityChangeSource.DFA)
+                    //{
+                    //    __result = __instance.GetMinStability(oldStability, (__instance.Combat.Constants.ResolutionConstants.StabilityDumpDFA + __instance.Combat.Constants.ResolutionConstants.StabilityDumpJumping));
+                    //}
+                }
+                catch (Exception e)
+                {
+                    Logger.Error(e);
+                }
+            }
+        }
+
         [HarmonyPatch(typeof(Mech), "GetMinStability", new Type[] { typeof(float), typeof(int) })]
         public static class Mech_GetMinStability_Patch
         {
@@ -207,6 +263,7 @@ namespace DemandingJumps.Patches
                 }
             }
         }
+        */
 
 
 
@@ -218,7 +275,7 @@ namespace DemandingJumps.Patches
                 try
                 {
                     Logger.Debug("[Mech_AddInstability_POSTFIX] __instance.DisplayName: " + __instance.DisplayName);
-                    //Logger.Debug("[Mech_AddInstability_POSTFIX] amt: " + amt);
+                    Logger.Debug("[Mech_AddInstability_POSTFIX] amt: " + amt);
                     Logger.Debug("[Mech_AddInstability_POSTFIX] source: " + source);
 
                     if (source != StabilityChangeSource.Jumping)
@@ -227,13 +284,13 @@ namespace DemandingJumps.Patches
                     }
 
                     float maxStability = __instance.MaxStability;
-                    Logger.Debug("[Mech_AddInstability_PREFIX] maxStability: " + maxStability);
+                    Logger.Debug("[Mech_AddInstability_POSTFIX] maxStability: " + maxStability);
                     float currentStability = (float)AccessTools.Property(typeof(Mech), "_stability").GetValue(__instance, null);
-                    Logger.Debug("[Mech_AddInstability_PREFIX] currentStability: " + currentStability);
+                    Logger.Debug("[Mech_AddInstability_POSTFIX] currentStability: " + currentStability);
                     float unsteadyThreshold = __instance.UnsteadyThreshold;
-                    Logger.Debug("[Mech_AddInstability_PREFIX] unsteadyThreshold: " + unsteadyThreshold);
+                    Logger.Debug("[Mech_AddInstability_POSTFIX] unsteadyThreshold: " + unsteadyThreshold);
                     float percentStability = __instance.StabilityPercentage;
-                    Logger.Debug("[Mech_AddInstability_PREFIX] percentStability: " + percentStability);
+                    Logger.Debug("[Mech_AddInstability_POSTFIX] percentStability: " + percentStability);
 
 
                     __instance.NeedsInstabilityCheck = true;
