@@ -1,6 +1,6 @@
 # DemandingJumps
 
-[Battletech Mod][ModTek] Jumping incurs a penalty to hitting targets depending on attackers weight class (configurable) AND adds one bar of stability damage.
+[Battletech Mod][ModTek] Jumping incurs a penalty to hitting targets depending on attackers weight class (configurable) AND adds one bar of stability damage. Jumping optionally disables called shots.
 
 ## Gameplay changes
 * Introduces a configurable penalty to hit for jumping attackers
@@ -8,6 +8,8 @@
 * Jumping adds instability to the performing actor
   * Depending on piloting expertise this can quickly result in unsteady Mechs upon landing, leaving the unit much more vulnerable (as evasion is canceled)
   * No hopping behind enemy mechs all day without a penalty anymore.
+* Disallows called shots for units that jumped
+  * Optional
 
 ## Why
 I found myself beating everything the OpFor throwed at me with jump/backstabbing tactics, especially once Firestarters and Grasshoppers were available.

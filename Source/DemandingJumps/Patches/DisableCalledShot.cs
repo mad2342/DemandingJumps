@@ -1,16 +1,51 @@
 ﻿using System;
 using BattleTech;
 using BattleTech.UI;
+using DemandingJumps.Extensions;
 using Harmony;
 
 namespace DemandingJumps.Patches
 {
     class DisableCalledShot
     {
+        // Append text to tooltip depending on mod's settings
+        [HarmonyPatch(typeof(CombatHUDMechwarriorTray), "Init")]
+        public static class CombatHUDMechwarriorTray_Init_Patch
+        {
+            public static bool Prepare()
+            {
+                return DemandingJumps.Settings.DisableCalledShots;
+            }
+
+            public static void Prefix(CombatHUDMechwarriorTray __instance, CombatGameState Combat)
+            {
+                try
+                {
+                    Logger.Debug($"[CombatHUDMechwarriorTray_Init_PREFIX] Overriding CombatGameState.Constants.CombatUIConstants.MoraleAttackDescription.Details");
+
+                    string org = Combat.Constants.CombatUIConstants.MoraleAttackDescription.Details;
+                    string ovr = $"{org}Cannot take Called Shots after jumping.\n";
+
+                    Combat.Constants.CombatUIConstants.MoraleAttackDescription.SetDetails(ovr);
+                }
+                catch (Exception e)
+                {
+                    Logger.Error(e);
+                }
+            }
+        }
+
+
+
         [HarmonyPatch(typeof(CombatHUDMechwarriorTray), "ResetMechwarriorButtons")]
         public static class CombatHUDMechwarriorTray_ResetMechwarriorButtons_Patch
         {
-            public static void Postfix(CombatHUDMechwarriorTray __instance, AbstractActor actor)
+            public static bool Prepare()
+            {
+                return DemandingJumps.Settings.DisableCalledShots;
+            }
+
+            public static void Postfix(CombatHUDMechwarriorTray __instance, AbstractActor actor, CombatGameState ___Combat)
             {
                 try
                 {

@@ -2,10 +2,5 @@
 	"ResolutionConstants": {
 		"StabilityDumpJumping": -1,
         "StabilityDumpDFA": -2
-	},
-    "CombatUIConstants": {
-        "MoraleAttackDescription": {
-            "Details": "Take a Called Shot against a single target at -4 Difficulty. The target's next Initiative is reduced by 1 (to a minimum of 1).\nCannot take Called Shots after jumping.\n"
-        }
-    }
+	}
 }

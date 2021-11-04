@@ -51,6 +51,7 @@
     <Compile Include="..\..\..\Link\MadLogger.cs">
       <Link>MadLogger.cs</Link>
     </Compile>
+    <Compile Include="Extensions\BaseDescriptionDef.cs" />
     <Compile Include="Holder.cs" />
     <Compile Include="DemandingJumps.cs" />
     <Compile Include="Patches\AddInstability.cs" />
